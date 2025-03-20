@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HeyB API - Swagger UI</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="//unpkg.com/swagger-ui-dist@3/swagger-ui.css" />
+  </head>
+  <body>
+    <div id="swagger-ui"></div>
+    <script src="//unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+    <script>
+    const ui = SwaggerUIBundle({
+        url: "{% url schema_url %}",
+        dom_id: '#swagger-ui',
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIBundle.SwaggerUIStandalonePreset
+        ],
+        layout: "BaseLayout",
+        deepLinking: true,
+        showExtensions: true,
+        showCommonExtensions: true,
+        oauth2RedirectUrl: window.location.origin + '/swagger/oauth2-redirect',
+        requestInterceptor: (request) => {
+          // Authorization 헤더가 있고 Bearer 접두사가 없는 경우 자동으로 추가
+          if (request.headers.Authorization && !request.headers.Authorization.startsWith('Bearer ')) {
+            request.headers.Authorization = `Bearer ${request.headers.Authorization}`;
+          }
+          return request;
+        }
+    });
+
+    // Bearer 접두사 자동 추가를 위한 스크립트
+    window.addEventListener('load', function() {
+      // 일정 시간 후에 실행 (UI가 완전히 로드된 후)
+      setTimeout(function() {
+        // Authorize 버튼 클릭 이벤트 감지
+        const authorizeButton = document.querySelector('.auth-wrapper .authorize');
+        if (authorizeButton) {
+          authorizeButton.addEventListener('click', function() {
+            // 모달이 열린 후 일정 시간 후에 실행
+            setTimeout(function() {
+              // 인증 모달 내의 입력 필드 찾기
+              const authInputs = document.querySelectorAll('.auth-container input');
+              
+              // 각 입력 필드에 대해 이벤트 리스너 추가
+              authInputs.forEach(function(input) {
+                // 입력 필드의 placeholder 수정
+                if (input.placeholder === 'api_key') {
+                  input.placeholder = '토큰만 입력하세요 (Bearer 접두사 없이)';
+                }
+                
+                // 입력 필드에 값이 변경될 때 이벤트 처리
+                input.addEventListener('input', function(e) {
+                  // Bearer 접두사가 있으면 제거
+                  if (e.target.value.startsWith('Bearer ')) {
+                    e.target.value = e.target.value.substring(7);
+                  }
+                });
+                
+                // Authorize 버튼 클릭 이벤트 감지
+                const authorizeButtons = document.querySelectorAll('.auth-btn-wrapper button.authorize');
+                authorizeButtons.forEach(function(button) {
+                  button.addEventListener('click', function() {
+                    // 입력 필드의 값 가져오기
+                    const inputValue = input.value;
+                    // Bearer 접두사가 없는 경우에만 추가
+                    if (inputValue && !inputValue.startsWith('Bearer ')) {
+                      // 실제로는 requestInterceptor에서 처리됨
+                      console.log('토큰이 입력되었습니다:', inputValue);
+                    }
+                  });
+                });
+              });
+            }, 500);
+          });
+        }
+      }, 1000);
+    });
+    </script>
+  </body>
+</html> 

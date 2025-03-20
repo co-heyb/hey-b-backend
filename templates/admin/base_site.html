@@ -1,0 +1,133 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrastyle %}
+<style>
+  :root {
+    --primary: #333;
+    --secondary: #555;
+    --accent: #777;
+    --primary-fg: #fff;
+    
+    --body-fg: #333;
+    --body-bg: #fff;
+    --body-quiet-color: #666;
+    --body-loud-color: #000;
+    
+    --header-color: #fff;
+    --header-branding-color: #fff;
+    --header-bg: #333;
+    --header-link-color: #eee;
+    
+    --breadcrumbs-fg: #999;
+    --breadcrumbs-link-fg: #666;
+    --breadcrumbs-bg: #f8f8f8;
+    
+    --link-fg: #333;
+    --link-hover-color: #000;
+    --link-selected-fg: #000;
+    
+    --hairline-color: #eee;
+    --border-color: #e0e0e0;
+    
+    --error-fg: #ba2121;
+    
+    --message-success-bg: #f0fff0;
+    --message-warning-bg: #fffaf0;
+    --message-error-bg: #fff0f0;
+    
+    --darkened-bg: #f8f8f8;
+    --selected-bg: #e0e0e0;
+    --selected-row: #f0f0f0;
+    
+    --button-fg: #fff;
+    --button-bg: #333;
+    --button-hover-bg: #555;
+    --default-button-bg: #f8f8f8;
+    --default-button-fg: #333;
+    --close-button-bg: #888;
+    --close-button-hover-bg: #747474;
+    --delete-button-bg: #ba2121;
+    --delete-button-hover-bg: #a41515;
+    
+    --object-tools-fg: #fff;
+    --object-tools-bg: #888;
+    --object-tools-hover-bg: #747474;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  #header {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .module h2, .module caption, .inline-group h2 {
+    background: var(--header-bg);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 10px 15px;
+  }
+
+  .button, input[type=submit], input[type=button], .submit-row input, a.button {
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .button.default, input[type=submit].default, .submit-row input.default {
+    background: var(--button-bg);
+  }
+
+  #changelist-filter h2 {
+    background: var(--header-bg);
+    padding: 10px 15px;
+  }
+
+  .paginator {
+    border-top: 1px solid var(--border-color);
+    padding: 15px 10px;
+  }
+
+  .object-tools a {
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  #content-related .module h2 {
+    background: var(--header-bg);
+    padding: 10px 15px;
+  }
+
+  .login #header {
+    height: auto;
+    padding: 30px 20px;
+  }
+
+  .login #content {
+    padding: 30px 20px;
+  }
+
+  .login .form-row {
+    padding: 5px 0;
+  }
+
+  .login .submit-row {
+    padding: 15px 0 0 0;
+  }
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %} 
