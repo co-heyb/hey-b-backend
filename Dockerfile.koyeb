@@ -1,0 +1,12 @@
+FROM koyeb/docker-compose
+
+WORKDIR /app
+
+# 소스 코드 복사
+COPY . /app
+
+# 필요한 환경 변수 설정
+ENV DEBUG=False
+
+# docker-compose.prod.yml을 사용하여 서비스 실행
+CMD ["docker-compose", "-f", "docker-compose.prod.yml", "up"]
