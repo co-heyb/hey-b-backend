@@ -16,6 +16,14 @@ class PostPagination(PageNumberPagination):
     max_page_size = 50
 
 
+# 공통 URL 및 경로 정의
+MEDIA_BASE_URL = 'https://hey-b.com/media/post_media/'
+DOG_IMG1 = f'{MEDIA_BASE_URL}dog_at_hangang1.jpg'
+DOG_IMG2 = f'{MEDIA_BASE_URL}dog_at_hangang2.jpg'
+DOG_VIDEO = f'{MEDIA_BASE_URL}dog_video.mp4'
+WOOD_IMG1 = f'{MEDIA_BASE_URL}woodwork_chair1.jpg'
+WOOD_IMG2 = f'{MEDIA_BASE_URL}woodwork_chair2.jpg'
+
 # 스웨거 응답 예시 정의
 post_list_response = openapi.Response(
     description='게시물 목록 조회 성공',
@@ -114,7 +122,7 @@ post_list_response = openapi.Response(
                                     'file': openapi.Schema(
                                         type=openapi.TYPE_STRING, 
                                         description='파일 URL',
-                                        example='https://hey-b.com/media/post_media/dog_at_hangang1.jpg'
+                                        example=DOG_IMG1
                                     ),
                                     'type': openapi.Schema(
                                         type=openapi.TYPE_STRING, 
@@ -153,7 +161,7 @@ post_list_response = openapi.Response(
                         'media': [
                             {
                                 'id': 789,
-                                'file': 'https://hey-b.com/media/post_media/dog_at_hangang1.jpg',
+                                'file': DOG_IMG1,
                                 'type': 'image',
                                 'order': 1,
                                 'created_at': '2023-04-05T14:30:00Z'
@@ -175,14 +183,14 @@ post_list_response = openapi.Response(
                         'media': [
                             {
                                 'id': 792,
-                                'file': 'https://hey-b.com/media/post_media/woodwork_chair1.jpg',
+                                'file': WOOD_IMG1,
                                 'type': 'image',
                                 'order': 1,
                                 'created_at': '2023-04-04T10:15:00Z'
                             },
                             {
                                 'id': 793,
-                                'file': 'https://hey-b.com/media/post_media/woodwork_chair2.jpg',
+                                'file': WOOD_IMG2,
                                 'type': 'image',
                                 'order': 2,
                                 'created_at': '2023-04-04T10:15:00Z'
@@ -212,7 +220,7 @@ post_list_response = openapi.Response(
                     'media': [
                         {
                             'id': 789,
-                            'file': 'https://hey-b.com/media/post_media/dog_at_hangang1.jpg',
+                            'file': DOG_IMG1,
                             'type': 'image',
                             'order': 1,
                             'created_at': '2023-04-05T14:30:00Z'
@@ -234,14 +242,14 @@ post_list_response = openapi.Response(
                     'media': [
                         {
                             'id': 792,
-                            'file': 'https://hey-b.com/media/post_media/woodwork_chair1.jpg',
+                            'file': WOOD_IMG1,
                             'type': 'image',
                             'order': 1,
                             'created_at': '2023-04-04T10:15:00Z'
                         },
                         {
                             'id': 793,
-                            'file': 'https://hey-b.com/media/post_media/woodwork_chair2.jpg',
+                            'file': WOOD_IMG2,
                             'type': 'image',
                             'order': 2,
                             'created_at': '2023-04-04T10:15:00Z'
@@ -329,7 +337,7 @@ post_detail_response = openapi.Response(
                         'file': openapi.Schema(
                             type=openapi.TYPE_STRING, 
                             description='파일 URL',
-                            example='https://hey-b.com/media/post_media/dog_at_hangang1.jpg'
+                            example=DOG_IMG1
                         ),
                         'type': openapi.Schema(
                             type=openapi.TYPE_STRING, 
@@ -352,21 +360,21 @@ post_detail_response = openapi.Response(
                 example=[
                     {
                         'id': 789,
-                        'file': 'https://hey-b.com/media/post_media/dog_at_hangang1.jpg',
+                        'file': DOG_IMG1,
                         'type': 'image',
                         'order': 1,
                         'created_at': '2023-04-05T14:30:00Z'
                     },
                     {
                         'id': 790,
-                        'file': 'https://hey-b.com/media/post_media/dog_at_hangang2.jpg',
+                        'file': DOG_IMG2,
                         'type': 'image',
                         'order': 2,
                         'created_at': '2023-04-05T14:30:00Z'
                     },
                     {
                         'id': 791,
-                        'file': 'https://hey-b.com/media/post_media/dog_video.mp4',
+                        'file': DOG_VIDEO,
                         'type': 'video',
                         'order': 3,
                         'created_at': '2023-04-05T14:30:00Z'
@@ -389,21 +397,21 @@ post_detail_response = openapi.Response(
             'media': [
                 {
                     'id': 789,
-                    'file': 'https://hey-b.com/media/post_media/dog_at_hangang1.jpg',
+                    'file': DOG_IMG1,
                     'type': 'image',
                     'order': 1,
                     'created_at': '2023-04-05T14:30:00Z'
                 },
                 {
                     'id': 790,
-                    'file': 'https://hey-b.com/media/post_media/dog_at_hangang2.jpg',
+                    'file': DOG_IMG2,
                     'type': 'image',
                     'order': 2,
                     'created_at': '2023-04-05T14:30:00Z'
                 },
                 {
                     'id': 791,
-                    'file': 'https://hey-b.com/media/post_media/dog_video.mp4',
+                    'file': DOG_VIDEO,
                     'type': 'video',
                     'order': 3,
                     'created_at': '2023-04-05T14:30:00Z'
@@ -611,8 +619,14 @@ def post_detail(request, post_id):
     request_body=openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
-            'content': openapi.Schema(type=openapi.TYPE_STRING, description='게시물 내용'),
-            'location': openapi.Schema(type=openapi.TYPE_STRING, description='위치'),
+            'content': openapi.Schema(
+                type=openapi.TYPE_STRING, 
+                description='게시물 내용'
+            ),
+            'location': openapi.Schema(
+                type=openapi.TYPE_STRING, 
+                description='위치'
+            ),
         }
     ),
     responses={
