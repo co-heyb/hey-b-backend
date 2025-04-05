@@ -4,6 +4,7 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DEBUG=False
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends gcc libpq-dev \
@@ -15,10 +16,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# 스크립트에 실행 권한 부여
-RUN chmod +x entrypoint.sh
+# 정적 파일 수집
+RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-# entrypoint.sh 스크립트를 사용하여 환경에 따라 다른 명령 실행
-ENTRYPOINT ["/app/entrypoint.sh"] 
+# gunicorn으로 실행
+CMD gunicorn heyb.wsgi:application --bind 0.0.0.0:$PORT 
