@@ -22,41 +22,233 @@ post_list_response = openapi.Response(
     schema=openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
-            'count': openapi.Schema(type=openapi.TYPE_INTEGER, description='총 게시물 수'),
-            'next': openapi.Schema(type=openapi.TYPE_STRING, description='다음 페이지 URL', nullable=True),
-            'previous': openapi.Schema(type=openapi.TYPE_STRING, description='이전 페이지 URL', nullable=True),
+            'count': openapi.Schema(
+                type=openapi.TYPE_INTEGER, 
+                description='총 게시물 수',
+                example=25
+            ),
+            'next': openapi.Schema(
+                type=openapi.TYPE_STRING, 
+                description='다음 페이지 URL', 
+                nullable=True,
+                example='https://hey-b.com/api/social/posts/?page=2'
+            ),
+            'previous': openapi.Schema(
+                type=openapi.TYPE_STRING, 
+                description='이전 페이지 URL', 
+                nullable=True,
+                example=None
+            ),
             'results': openapi.Schema(
                 type=openapi.TYPE_ARRAY,
                 items=openapi.Schema(
                     type=openapi.TYPE_OBJECT,
                     properties={
-                        'id': openapi.Schema(type=openapi.TYPE_INTEGER, description='게시물 ID'),
-                        'user': openapi.Schema(type=openapi.TYPE_INTEGER, description='작성자 ID'),
-                        'username': openapi.Schema(type=openapi.TYPE_STRING, description='작성자 이름'),
-                        'content': openapi.Schema(type=openapi.TYPE_STRING, description='게시물 내용'),
-                        'location': openapi.Schema(type=openapi.TYPE_STRING, description='위치'),
-                        'created_at': openapi.Schema(type=openapi.TYPE_STRING, format='date-time', description='작성일'),
-                        'updated_at': openapi.Schema(type=openapi.TYPE_STRING, format='date-time', description='수정일'),
-                        'likes_count': openapi.Schema(type=openapi.TYPE_INTEGER, description='좋아요 수'),
-                        'comments_count': openapi.Schema(type=openapi.TYPE_INTEGER, description='댓글 수'),
-                        'is_liked': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='현재 사용자의 좋아요 여부'),
-                        'is_bookmarked': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='현재 사용자의 북마크 여부'),
+                        'id': openapi.Schema(
+                            type=openapi.TYPE_INTEGER, 
+                            description='게시물 ID',
+                            example=123
+                        ),
+                        'user': openapi.Schema(
+                            type=openapi.TYPE_INTEGER, 
+                            description='작성자 ID',
+                            example=456
+                        ),
+                        'username': openapi.Schema(
+                            type=openapi.TYPE_STRING, 
+                            description='작성자 이름',
+                            example='김철수'
+                        ),
+                        'content': openapi.Schema(
+                            type=openapi.TYPE_STRING, 
+                            description='게시물 내용',
+                            example='오늘 강아지와 함께 한강 공원에 다녀왔어요! 정말 좋은 날씨였습니다.'
+                        ),
+                        'location': openapi.Schema(
+                            type=openapi.TYPE_STRING, 
+                            description='위치',
+                            example='서울특별시 영등포구 여의도 한강공원'
+                        ),
+                        'created_at': openapi.Schema(
+                            type=openapi.TYPE_STRING, 
+                            format='date-time', 
+                            description='작성일',
+                            example='2023-04-05T14:30:00Z'
+                        ),
+                        'updated_at': openapi.Schema(
+                            type=openapi.TYPE_STRING, 
+                            format='date-time', 
+                            description='수정일',
+                            example='2023-04-05T14:30:00Z'
+                        ),
+                        'likes_count': openapi.Schema(
+                            type=openapi.TYPE_INTEGER, 
+                            description='좋아요 수',
+                            example=42
+                        ),
+                        'comments_count': openapi.Schema(
+                            type=openapi.TYPE_INTEGER, 
+                            description='댓글 수',
+                            example=7
+                        ),
+                        'is_liked': openapi.Schema(
+                            type=openapi.TYPE_BOOLEAN, 
+                            description='현재 사용자의 좋아요 여부',
+                            example=True
+                        ),
+                        'is_bookmarked': openapi.Schema(
+                            type=openapi.TYPE_BOOLEAN, 
+                            description='현재 사용자의 북마크 여부',
+                            example=False
+                        ),
                         'media': openapi.Schema(
                             type=openapi.TYPE_ARRAY,
                             items=openapi.Schema(
                                 type=openapi.TYPE_OBJECT,
                                 properties={
-                                    'id': openapi.Schema(type=openapi.TYPE_INTEGER, description='미디어 ID'),
-                                    'file': openapi.Schema(type=openapi.TYPE_STRING, description='파일 URL'),
-                                    'type': openapi.Schema(type=openapi.TYPE_STRING, description='미디어 타입'),
-                                    'order': openapi.Schema(type=openapi.TYPE_INTEGER, description='순서'),
-                                    'created_at': openapi.Schema(type=openapi.TYPE_STRING, format='date-time', description='생성일'),
+                                    'id': openapi.Schema(
+                                        type=openapi.TYPE_INTEGER, 
+                                        description='미디어 ID',
+                                        example=789
+                                    ),
+                                    'file': openapi.Schema(
+                                        type=openapi.TYPE_STRING, 
+                                        description='파일 URL',
+                                        example='https://hey-b.com/media/post_media/dog_at_hangang1.jpg'
+                                    ),
+                                    'type': openapi.Schema(
+                                        type=openapi.TYPE_STRING, 
+                                        description='미디어 타입',
+                                        example='image'
+                                    ),
+                                    'order': openapi.Schema(
+                                        type=openapi.TYPE_INTEGER, 
+                                        description='순서',
+                                        example=1
+                                    ),
+                                    'created_at': openapi.Schema(
+                                        type=openapi.TYPE_STRING, 
+                                        format='date-time', 
+                                        description='생성일',
+                                        example='2023-04-05T14:30:00Z'
+                                    ),
                                 }
                             )
                         ),
                     }
-                )
+                ),
+                example=[
+                    {
+                        'id': 123,
+                        'user': 456,
+                        'username': '김철수',
+                        'content': '오늘 강아지와 함께 한강 공원에 다녀왔어요! 정말 좋은 날씨였습니다.',
+                        'location': '서울특별시 영등포구 여의도 한강공원',
+                        'created_at': '2023-04-05T14:30:00Z',
+                        'updated_at': '2023-04-05T14:30:00Z',
+                        'likes_count': 42,
+                        'comments_count': 7,
+                        'is_liked': True,
+                        'is_bookmarked': False,
+                        'media': [
+                            {
+                                'id': 789,
+                                'file': 'https://hey-b.com/media/post_media/dog_at_hangang1.jpg',
+                                'type': 'image',
+                                'order': 1,
+                                'created_at': '2023-04-05T14:30:00Z'
+                            }
+                        ]
+                    },
+                    {
+                        'id': 124,
+                        'user': 789,
+                        'username': '홍길동',
+                        'content': '취미로 시작한 목공, 첫 작품으로 원목 의자를 만들었습니다!',
+                        'location': '서울특별시 마포구 연남동',
+                        'created_at': '2023-04-04T10:15:00Z',
+                        'updated_at': '2023-04-04T10:15:00Z',
+                        'likes_count': 65,
+                        'comments_count': 12,
+                        'is_liked': False,
+                        'is_bookmarked': True,
+                        'media': [
+                            {
+                                'id': 792,
+                                'file': 'https://hey-b.com/media/post_media/woodwork_chair1.jpg',
+                                'type': 'image',
+                                'order': 1,
+                                'created_at': '2023-04-04T10:15:00Z'
+                            },
+                            {
+                                'id': 793,
+                                'file': 'https://hey-b.com/media/post_media/woodwork_chair2.jpg',
+                                'type': 'image',
+                                'order': 2,
+                                'created_at': '2023-04-04T10:15:00Z'
+                            }
+                        ]
+                    }
+                ]
             )
+        },
+        example={
+            'count': 25,
+            'next': 'https://hey-b.com/api/social/posts/?page=2',
+            'previous': None,
+            'results': [
+                {
+                    'id': 123,
+                    'user': 456,
+                    'username': '김철수',
+                    'content': '오늘 강아지와 함께 한강 공원에 다녀왔어요! 정말 좋은 날씨였습니다.',
+                    'location': '서울특별시 영등포구 여의도 한강공원',
+                    'created_at': '2023-04-05T14:30:00Z',
+                    'updated_at': '2023-04-05T14:30:00Z',
+                    'likes_count': 42,
+                    'comments_count': 7,
+                    'is_liked': True,
+                    'is_bookmarked': False,
+                    'media': [
+                        {
+                            'id': 789,
+                            'file': 'https://hey-b.com/media/post_media/dog_at_hangang1.jpg',
+                            'type': 'image',
+                            'order': 1,
+                            'created_at': '2023-04-05T14:30:00Z'
+                        }
+                    ]
+                },
+                {
+                    'id': 124,
+                    'user': 789,
+                    'username': '홍길동',
+                    'content': '취미로 시작한 목공, 첫 작품으로 원목 의자를 만들었습니다!',
+                    'location': '서울특별시 마포구 연남동',
+                    'created_at': '2023-04-04T10:15:00Z',
+                    'updated_at': '2023-04-04T10:15:00Z',
+                    'likes_count': 65,
+                    'comments_count': 12,
+                    'is_liked': False,
+                    'is_bookmarked': True,
+                    'media': [
+                        {
+                            'id': 792,
+                            'file': 'https://hey-b.com/media/post_media/woodwork_chair1.jpg',
+                            'type': 'image',
+                            'order': 1,
+                            'created_at': '2023-04-04T10:15:00Z'
+                        },
+                        {
+                            'id': 793,
+                            'file': 'https://hey-b.com/media/post_media/woodwork_chair2.jpg',
+                            'type': 'image',
+                            'order': 2,
+                            'created_at': '2023-04-04T10:15:00Z'
+                        }
+                    ]
+                }
+            ]
         }
     )
 )
@@ -67,30 +259,156 @@ post_detail_response = openapi.Response(
     schema=openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
-            'id': openapi.Schema(type=openapi.TYPE_INTEGER, description='게시물 ID'),
-            'user': openapi.Schema(type=openapi.TYPE_INTEGER, description='작성자 ID'),
-            'username': openapi.Schema(type=openapi.TYPE_STRING, description='작성자 이름'),
-            'content': openapi.Schema(type=openapi.TYPE_STRING, description='게시물 내용'),
-            'location': openapi.Schema(type=openapi.TYPE_STRING, description='위치'),
-            'created_at': openapi.Schema(type=openapi.TYPE_STRING, format='date-time', description='작성일'),
-            'updated_at': openapi.Schema(type=openapi.TYPE_STRING, format='date-time', description='수정일'),
-            'likes_count': openapi.Schema(type=openapi.TYPE_INTEGER, description='좋아요 수'),
-            'comments_count': openapi.Schema(type=openapi.TYPE_INTEGER, description='댓글 수'),
-            'is_liked': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='현재 사용자의 좋아요 여부'),
-            'is_bookmarked': openapi.Schema(type=openapi.TYPE_BOOLEAN, description='현재 사용자의 북마크 여부'),
+            'id': openapi.Schema(
+                type=openapi.TYPE_INTEGER, 
+                description='게시물 ID',
+                example=123
+            ),
+            'user': openapi.Schema(
+                type=openapi.TYPE_INTEGER, 
+                description='작성자 ID',
+                example=456
+            ),
+            'username': openapi.Schema(
+                type=openapi.TYPE_STRING, 
+                description='작성자 이름',
+                example='김철수'
+            ),
+            'content': openapi.Schema(
+                type=openapi.TYPE_STRING, 
+                description='게시물 내용',
+                example='오늘 강아지와 함께 한강 공원에 다녀왔어요! 정말 좋은 날씨였습니다.'
+            ),
+            'location': openapi.Schema(
+                type=openapi.TYPE_STRING, 
+                description='위치',
+                example='서울특별시 영등포구 여의도 한강공원'
+            ),
+            'created_at': openapi.Schema(
+                type=openapi.TYPE_STRING, 
+                format='date-time', 
+                description='작성일',
+                example='2023-04-05T14:30:00Z'
+            ),
+            'updated_at': openapi.Schema(
+                type=openapi.TYPE_STRING, 
+                format='date-time', 
+                description='수정일',
+                example='2023-04-05T14:30:00Z'
+            ),
+            'likes_count': openapi.Schema(
+                type=openapi.TYPE_INTEGER, 
+                description='좋아요 수',
+                example=42
+            ),
+            'comments_count': openapi.Schema(
+                type=openapi.TYPE_INTEGER, 
+                description='댓글 수',
+                example=7
+            ),
+            'is_liked': openapi.Schema(
+                type=openapi.TYPE_BOOLEAN, 
+                description='현재 사용자의 좋아요 여부',
+                example=True
+            ),
+            'is_bookmarked': openapi.Schema(
+                type=openapi.TYPE_BOOLEAN, 
+                description='현재 사용자의 북마크 여부',
+                example=False
+            ),
             'media': openapi.Schema(
                 type=openapi.TYPE_ARRAY,
                 items=openapi.Schema(
                     type=openapi.TYPE_OBJECT,
                     properties={
-                        'id': openapi.Schema(type=openapi.TYPE_INTEGER, description='미디어 ID'),
-                        'file': openapi.Schema(type=openapi.TYPE_STRING, description='파일 URL'),
-                        'type': openapi.Schema(type=openapi.TYPE_STRING, description='미디어 타입'),
-                        'order': openapi.Schema(type=openapi.TYPE_INTEGER, description='순서'),
-                        'created_at': openapi.Schema(type=openapi.TYPE_STRING, format='date-time', description='생성일'),
+                        'id': openapi.Schema(
+                            type=openapi.TYPE_INTEGER, 
+                            description='미디어 ID',
+                            example=789
+                        ),
+                        'file': openapi.Schema(
+                            type=openapi.TYPE_STRING, 
+                            description='파일 URL',
+                            example='https://hey-b.com/media/post_media/dog_at_hangang1.jpg'
+                        ),
+                        'type': openapi.Schema(
+                            type=openapi.TYPE_STRING, 
+                            description='미디어 타입',
+                            example='image'
+                        ),
+                        'order': openapi.Schema(
+                            type=openapi.TYPE_INTEGER, 
+                            description='순서',
+                            example=1
+                        ),
+                        'created_at': openapi.Schema(
+                            type=openapi.TYPE_STRING, 
+                            format='date-time', 
+                            description='생성일',
+                            example='2023-04-05T14:30:00Z'
+                        ),
                     }
-                )
+                ),
+                example=[
+                    {
+                        'id': 789,
+                        'file': 'https://hey-b.com/media/post_media/dog_at_hangang1.jpg',
+                        'type': 'image',
+                        'order': 1,
+                        'created_at': '2023-04-05T14:30:00Z'
+                    },
+                    {
+                        'id': 790,
+                        'file': 'https://hey-b.com/media/post_media/dog_at_hangang2.jpg',
+                        'type': 'image',
+                        'order': 2,
+                        'created_at': '2023-04-05T14:30:00Z'
+                    },
+                    {
+                        'id': 791,
+                        'file': 'https://hey-b.com/media/post_media/dog_video.mp4',
+                        'type': 'video',
+                        'order': 3,
+                        'created_at': '2023-04-05T14:30:00Z'
+                    }
+                ]
             ),
+        },
+        example={
+            'id': 123,
+            'user': 456,
+            'username': '김철수',
+            'content': '오늘 강아지와 함께 한강 공원에 다녀왔어요! 정말 좋은 날씨였습니다.',
+            'location': '서울특별시 영등포구 여의도 한강공원',
+            'created_at': '2023-04-05T14:30:00Z',
+            'updated_at': '2023-04-05T14:30:00Z',
+            'likes_count': 42,
+            'comments_count': 7,
+            'is_liked': True,
+            'is_bookmarked': False,
+            'media': [
+                {
+                    'id': 789,
+                    'file': 'https://hey-b.com/media/post_media/dog_at_hangang1.jpg',
+                    'type': 'image',
+                    'order': 1,
+                    'created_at': '2023-04-05T14:30:00Z'
+                },
+                {
+                    'id': 790,
+                    'file': 'https://hey-b.com/media/post_media/dog_at_hangang2.jpg',
+                    'type': 'image',
+                    'order': 2,
+                    'created_at': '2023-04-05T14:30:00Z'
+                },
+                {
+                    'id': 791,
+                    'file': 'https://hey-b.com/media/post_media/dog_video.mp4',
+                    'type': 'video',
+                    'order': 3,
+                    'created_at': '2023-04-05T14:30:00Z'
+                }
+            ]
         }
     )
 )
@@ -100,25 +418,91 @@ post_create_request = openapi.Schema(
     type=openapi.TYPE_OBJECT,
     required=['content'],
     properties={
-        'content': openapi.Schema(type=openapi.TYPE_STRING, description='게시물 내용'),
-        'location': openapi.Schema(type=openapi.TYPE_STRING, description='위치', default=''),
+        'content': openapi.Schema(
+            type=openapi.TYPE_STRING, 
+            description='게시물 내용',
+            example='오늘 강아지와 함께 한강 공원에 다녀왔어요! 정말 좋은 날씨였습니다.'
+        ),
+        'location': openapi.Schema(
+            type=openapi.TYPE_STRING, 
+            description='위치', 
+            default='',
+            example='서울특별시 영등포구 여의도 한강공원'
+        ),
         'hashtags': openapi.Schema(
             type=openapi.TYPE_ARRAY, 
-            items=openapi.Schema(type=openapi.TYPE_STRING),
-            description='해시태그 목록'
+            items=openapi.Schema(
+                type=openapi.TYPE_STRING,
+                example='애견동반'
+            ),
+            description='해시태그 목록',
+            example=['애견동반', '한강', '주말나들이', '맑음']
         ),
         'media': openapi.Schema(
             type=openapi.TYPE_ARRAY,
             items=openapi.Schema(
                 type=openapi.TYPE_OBJECT,
                 properties={
-                    'file': openapi.Schema(type=openapi.TYPE_STRING, format='binary', description='파일'),
-                    'type': openapi.Schema(type=openapi.TYPE_STRING, description='미디어 타입 (image, video)'),
-                    'order': openapi.Schema(type=openapi.TYPE_INTEGER, description='순서', default=0),
+                    'file': openapi.Schema(
+                        type=openapi.TYPE_STRING, 
+                        format='binary', 
+                        description='파일',
+                        example='dog_at_hangang.jpg'
+                    ),
+                    'type': openapi.Schema(
+                        type=openapi.TYPE_STRING, 
+                        description='미디어 타입 (image, video)',
+                        example='image'
+                    ),
+                    'order': openapi.Schema(
+                        type=openapi.TYPE_INTEGER, 
+                        description='순서', 
+                        default=0,
+                        example=1
+                    ),
                 }
             ),
-            description='미디어 목록'
+            description='미디어 목록',
+            example=[
+                {
+                    'file': 'dog_at_hangang1.jpg',
+                    'type': 'image',
+                    'order': 1
+                },
+                {
+                    'file': 'dog_at_hangang2.jpg',
+                    'type': 'image',
+                    'order': 2
+                },
+                {
+                    'file': 'dog_video.mp4',
+                    'type': 'video',
+                    'order': 3
+                }
+            ]
         ),
+    },
+    example={
+        'content': '오늘 강아지와 함께 한강 공원에 다녀왔어요! 정말 좋은 날씨였습니다.',
+        'location': '서울특별시 영등포구 여의도 한강공원',
+        'hashtags': ['애견동반', '한강', '주말나들이', '맑음'],
+        'media': [
+            {
+                'file': 'dog_at_hangang1.jpg',
+                'type': 'image',
+                'order': 1
+            },
+            {
+                'file': 'dog_at_hangang2.jpg',
+                'type': 'image',
+                'order': 2
+            },
+            {
+                'file': 'dog_video.mp4',
+                'type': 'video',
+                'order': 3
+            }
+        ]
     }
 )
 
