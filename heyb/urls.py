@@ -49,7 +49,7 @@ urlpatterns = [
     
     # API 앱 URL
     path('api/users/', include('users.urls')),
-    path('api/social/', include('social.urls')),
+    # path('api/social/', include('social.urls')),
     # path('api/commerce/', include('commerce.urls')),
 ]
 
