@@ -242,13 +242,21 @@ CELERY_TIMEZONE = TIME_ZONE
 
 # Sentry 설정
 SENTRY_DSN = os.getenv('SENTRY_DSN', '')
-if SENTRY_DSN:
-    import sentry_sdk
-    from sentry_sdk.integrations.django import DjangoIntegration
-    
-    sentry_sdk.init(
-        dsn=SENTRY_DSN,
-        integrations=[DjangoIntegration()],
-        traces_sample_rate=1.0,
-        send_default_pii=True
-    )
+
+# 운영 환경에서만 Sentry 사용 (설정된 경우)
+if not DEBUG and SENTRY_DSN and SENTRY_DSN.startswith(('http://', 'https://')):
+    try:
+        import sentry_sdk
+        from sentry_sdk.integrations.django import DjangoIntegration
+        
+        sentry_sdk.init(
+            dsn=SENTRY_DSN,
+            integrations=[DjangoIntegration()],
+            traces_sample_rate=1.0,
+            send_default_pii=True
+        )
+    except Exception as e:
+        print(f"Sentry 초기화 중 오류 발생: {e}")
+else:
+    # 개발 환경 또는 Sentry가 설정되지 않은 경우
+    pass
