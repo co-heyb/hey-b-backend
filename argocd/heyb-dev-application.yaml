@@ -6,12 +6,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:yourusername/hey-b-backend.git
+    repoURL: git@github.com:co-heyb/hey-b-backend.git
     targetRevision: main
     path: k8s/overlays/dev
     kustomize:
       images:
-      - ${IMAGE_REGISTRY}/heyb-web:${IMAGE_TAG}
+      - ghcr.io/co-heyb/heyb-web:latest
   destination:
     server: https://kubernetes.default.svc
     namespace: heyb-dev

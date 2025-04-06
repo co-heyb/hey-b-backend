@@ -5,8 +5,30 @@ metadata:
 spec:
   template:
     spec:
+      imagePullSecrets:
+      - name: ghcr-secret
       containers:
       - name: web
         env:
         - name: DEBUG
-          value: "True" 
+          value: "True"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heyb-celery
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heyb-celery-beat
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret 
