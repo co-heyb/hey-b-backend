@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: heyb-prod
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: git@github.com:yourusername/hey-b-backend.git
+    targetRevision: main
+    path: k8s/overlays/prod
+    kustomize:
+      images:
+      - ${IMAGE_REGISTRY}/heyb-web:${IMAGE_TAG}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: heyb-prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true 

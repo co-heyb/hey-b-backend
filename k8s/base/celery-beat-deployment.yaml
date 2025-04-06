@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heyb-celery-beat
+  labels:
+    app: heyb
+    component: celery-beat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heyb
+      component: celery-beat
+  template:
+    metadata:
+      labels:
+        app: heyb
+        component: celery-beat
+    spec:
+      containers:
+      - name: celery-beat
+        image: ${IMAGE_REGISTRY}/heyb-web:${IMAGE_TAG}
+        command: ["celery", "-A", "heyb", "beat", "-l", "INFO"]
+        env:
+        - name: DEBUG
+          value: "False"
+        envFrom:
+        - secretRef:
+            name: heyb-secrets
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi 

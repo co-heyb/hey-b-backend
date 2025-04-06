@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - pvc.yaml
+  - ingress.yaml
+  - db-deployment.yaml
+  - db-service.yaml
+  - db-pvc.yaml
+  - redis-deployment.yaml
+  - redis-service.yaml
+  - redis-pvc.yaml
+  - celery-deployment.yaml
+  - celery-beat-deployment.yaml
+
+# commonLabels:
+#   app: heyb
+
+# 시크릿은 환경별로 다르게 생성됩니다 

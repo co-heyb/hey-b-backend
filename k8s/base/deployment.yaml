@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heyb-web
+  labels:
+    app: heyb
+    component: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heyb
+      component: web
+  template:
+    metadata:
+      labels:
+        app: heyb
+        component: web
+    spec:
+      containers:
+      - name: web
+        image: ${IMAGE_REGISTRY}/heyb-web:${IMAGE_TAG}
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DEBUG
+          value: "False"
+        - name: PORT
+          value: "8000"
+        envFrom:
+        - secretRef:
+            name: heyb-secrets
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        readinessProbe:
+          httpGet:
+            path: /health/
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 10
+        volumeMounts:
+        - name: static-volume
+          mountPath: /app/staticfiles
+        - name: media-volume
+          mountPath: /app/media
+      volumes:
+      - name: static-volume
+        persistentVolumeClaim:
+          claimName: heyb-static-pvc
+      - name: media-volume
+        persistentVolumeClaim:
+          claimName: heyb-media-pvc 

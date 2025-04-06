@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: heyb-redis
+  labels:
+    app: heyb
+    component: redis
+spec:
+  selector:
+    app: heyb
+    component: redis
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+  type: ClusterIP 

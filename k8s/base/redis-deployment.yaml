@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heyb-redis
+  labels:
+    app: heyb
+    component: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: heyb
+      component: redis
+  template:
+    metadata:
+      labels:
+        app: heyb
+        component: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7
+        ports:
+        - containerPort: 6379
+        resources:
+          limits:
+            cpu: 300m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: heyb-redis-pvc 
