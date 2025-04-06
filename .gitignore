@@ -171,4 +171,7 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# Registry secrets
+k8s/overlays/*/registry-secret.yaml
+
 # End of https://www.toptal.com/developers/gitignore/api/django
