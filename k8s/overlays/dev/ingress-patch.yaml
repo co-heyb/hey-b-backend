@@ -7,4 +7,17 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
 spec:
   rules:
-  - host: dev.heyb-app.com 
+  - host: heyb-backend.dongpark.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: heyb-web
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - heyb-backend.dongpark.dev
+    secretName: heyb-tls-secret 

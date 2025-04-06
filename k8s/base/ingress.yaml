@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
 spec:
   rules:
-  - host: ${INGRESS_HOST}
+  - host: heyb-backend.dongpark.dev
     http:
       paths:
       - path: /
@@ -20,5 +20,5 @@ spec:
               number: 80
   tls:
   - hosts:
-    - ${INGRESS_HOST}
+    - heyb-backend.dongpark.dev
     secretName: heyb-tls-secret 
