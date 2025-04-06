@@ -21,6 +21,6 @@ replicas:
     count: 1
 
 images:
-  - name: ${IMAGE_REGISTRY}/heyb-web
-    newName: ${IMAGE_REGISTRY}/heyb-web
-    newTag: ${IMAGE_TAG} 
+  - name: ghcr.io/co-heyb/heyb-web
+    newName: ghcr.io/co-heyb/heyb-web
+    newTag: latest 

@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: celery-beat
-        image: ${IMAGE_REGISTRY}/heyb-web:${IMAGE_TAG}
+        image: ghcr.io/co-heyb/heyb-web:latest
         command: ["celery", "-A", "heyb", "beat", "-l", "INFO"]
         env:
         - name: DEBUG
