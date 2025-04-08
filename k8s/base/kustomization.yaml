@@ -17,6 +17,31 @@ resources:
   - serviceaccount.yaml
   - nginx-configmap.yaml
 
+# 날짜 변환 설정 추가
+replacements:
+  - source:
+      kind: Deployment
+      name: heyb-web
+      fieldPath: metadata.annotations.[date]
+    targets:
+      - select:
+          kind: Deployment
+          name: heyb-web
+        fieldPaths:
+          - metadata.annotations.deploy-date
+        options:
+          create: true
+
+patches:
+  - target:
+      kind: Deployment
+      name: heyb-web
+    patch: |
+      - op: add
+        path: /metadata/annotations
+        value:
+          date: "$(date +%Y%m%d%H%M%S)"
+
 # commonLabels:
 #   app: heyb
 

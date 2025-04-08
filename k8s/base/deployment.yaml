@@ -16,6 +16,8 @@ spec:
       labels:
         app: heyb
         component: web
+      annotations:
+        deploy-date: "{{ date }}"  # kustomize에서 자동으로 현재 시간으로 변환됨
     spec:
       serviceAccountName: heyb-sa
       initContainers:
@@ -36,9 +38,15 @@ spec:
         - name: PORT
           value: "8000"
         - name: STATIC_VERSION
+          value: "{{ date }}"
+        - name: POD_NAME
           valueFrom:
             fieldRef:
-              fieldPath: metadata.generation
+              fieldPath: metadata.name
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         envFrom:
         - secretRef:
             name: heyb-secrets
