@@ -6,7 +6,6 @@ namespace: heyb-prod
 resources:
   - ../../base
   - namespace.yaml
-  - ghcr-secret.yaml
   - secrets.yaml
 
 patchesStrategicMerge:
