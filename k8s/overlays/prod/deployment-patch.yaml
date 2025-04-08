@@ -10,6 +10,8 @@ spec:
         prometheus.io/port: "8000"
         prometheus.io/path: "/metrics"
     spec:
+      imagePullSecrets:
+      - name: ghcr-secret
       containers:
       - name: web
         env:
@@ -21,4 +23,24 @@ spec:
             memory: 1Gi
           requests:
             cpu: 500m
-            memory: 512Mi 
+            memory: 512Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heyb-celery
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heyb-celery-beat
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+      - name: ghcr-secret 
