@@ -11,7 +11,7 @@ spec:
     component: web
   ports:
   - port: 80
-    targetPort: 8000
+    targetPort: 80
     nodePort: 30000
     protocol: TCP
   type: NodePort 

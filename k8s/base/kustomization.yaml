@@ -15,6 +15,7 @@ resources:
   - celery-deployment.yaml
   - celery-beat-deployment.yaml
   - serviceaccount.yaml
+  - nginx-configmap.yaml
 
 # commonLabels:
 #   app: heyb
