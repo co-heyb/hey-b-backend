@@ -71,7 +71,7 @@ MIDDLEWARE = [
 ]
 
 # Whitenoise 설정
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 ROOT_URLCONF = 'heyb.urls'
 
