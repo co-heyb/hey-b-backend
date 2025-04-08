@@ -16,10 +16,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# 정적 파일 디렉토리 생성 및 권한 설정
-RUN mkdir -p /app/staticfiles /app/media \
-    && chmod -R 755 /app/staticfiles /app/media
-
 # 정적 파일 수집
 RUN python manage.py collectstatic --noinput
 
