@@ -16,10 +16,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# 정적 파일 수집
-RUN python manage.py collectstatic --noinput
+# 스크립트에 실행 권한 부여
+RUN chmod +x start.sh
+
+# 정적 파일 수집 (빌드 타임에 미리 수집)
+RUN python manage.py collectstatic --clear --noinput
 
 EXPOSE 8000
 
-# gunicorn으로 실행
-CMD gunicorn heyb.wsgi:application --bind 0.0.0.0:$PORT 
+# 시작 스크립트로 실행
+CMD ["./start.sh"] 
