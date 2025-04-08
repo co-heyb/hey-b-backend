@@ -50,4 +50,58 @@ window.addEventListener('load', function() {
     // DOM 변경 감시 시작
     observer.observe(document.body, { childList: true, subtree: true });
   }, 1000);
-}); 
+});
+
+// Swagger UI를 위한 커스텀 스크립트
+// HTTP 요청을 HTTPS로 강제 변환
+(function() {
+  // 페이지 로드 완료 후 실행
+  window.addEventListener('load', function() {
+    // 개발 환경 여부 확인 (localhost 또는 127.0.0.1)
+    const isLocalhost = window.location.hostname === 'localhost' || 
+                        window.location.hostname === '127.0.0.1' ||
+                        window.location.hostname.startsWith('192.168.');
+    
+    // 개발 환경이 아니고 HTTP 프로토콜인 경우에만 HTTPS로 리다이렉트
+    if (window.location.protocol === 'http:' && !isLocalhost) {
+      window.location.href = window.location.href.replace('http:', 'https:');
+      return;
+    }
+
+    // 개발 환경이 아닌 경우에만 HTTPS 관련 처리
+    if (!isLocalhost) {
+      // API 요청 인터셉터 설정
+      const originalFetch = window.fetch;
+      window.fetch = function(url, options) {
+        // HTTP URL을 HTTPS로 변환
+        if (typeof url === 'string' && url.startsWith('http:')) {
+          url = url.replace('http:', 'https:');
+        }
+        return originalFetch(url, options);
+      };
+
+      // Swagger UI가 로드되었을 때 추가 설정
+      const intervalId = setInterval(function() {
+        if (window.ui) {
+          clearInterval(intervalId);
+          
+          // Swagger UI 구성 후크
+          const original = window.ui.initOAuth;
+          window.ui.initOAuth = function(conf) {
+            // 모든 API 요청을 HTTPS로 설정
+            if (window.ui.getConfigs) {
+              const configs = window.ui.getConfigs();
+              configs.schemes = ['https'];
+              
+              // URL이 있고 HTTP로 시작하는 경우에만 변경
+              if (configs.url && configs.url.startsWith('http:')) {
+                configs.url = configs.url.replace('http:', 'https:');
+              }
+            }
+            original(conf);
+          };
+        }
+      }, 100);
+    }
+  });
+})(); 

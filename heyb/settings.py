@@ -223,11 +223,18 @@ SWAGGER_SETTINGS = {
         'persistAuthorization': True,
         'displayOperationId': False,
         'filter': True,
+        'supportedSubmitMethods': ['get', 'post', 'put', 'delete', 'patch'],
+        'displayRequestDuration': True,
+        'syntaxHighlight.activate': True
     },
     'SWAGGER_UI_EXTRA_JS': [
         '/static/js/swagger-bearer-auth.js'
     ],
 }
+
+# 운영 환경에서만 HTTPS 강제
+if not DEBUG:
+    SWAGGER_SETTINGS['SCHEMES'] = ['https']
 
 # Redis 설정
 REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')

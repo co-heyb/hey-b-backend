@@ -8,6 +8,7 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView as OriginalTokenVerifyView,
 )
 from django.urls import path
+from django.conf import settings
 
 # JWT 인증을 위한 스웨거 데코레이터 설정
 token_obtain_pair_schema = swagger_auto_schema(
@@ -60,8 +61,8 @@ class TokenVerifyView(OriginalTokenVerifyView):
         return super().post(request, *args, **kwargs)
 
 # API 문서화 설정
-schema_view = get_schema_view(
-    openapi.Info(
+schema_view_kwargs = {
+    'info': openapi.Info(
         title="HeyB API",
         default_version='v1',
         description=(
@@ -75,9 +76,18 @@ schema_view = get_schema_view(
         contact=openapi.Contact(email="contact@heyb.com"),
         license=openapi.License(name="BSD License"),
     ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
+    'public': True,
+    'permission_classes': (permissions.AllowAny,),
+}
+
+# 운영 환경에서만 추가 설정 적용
+if not settings.DEBUG:
+    schema_view_kwargs.update({
+        'url': 'https://heyb-backend.dongpark.dev',
+        'schemes': ['https'],
+    })
+
+schema_view = get_schema_view(**schema_view_kwargs)
 
 # 아래 urlpatterns 추가
 urlpatterns = [
