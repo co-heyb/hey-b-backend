@@ -68,31 +68,10 @@ spec:
           mountPath: /app/staticfiles
         - name: media-volume
           mountPath: /app/media
-      - name: nginx
-        image: nginx:alpine
-        ports:
-        - containerPort: 80
-        resources:
-          limits:
-            cpu: 100m
-            memory: 128Mi
-          requests:
-            cpu: 50m
-            memory: 64Mi
-        volumeMounts:
-        - name: static-volume
-          mountPath: /usr/share/nginx/html/static
-        - name: media-volume
-          mountPath: /usr/share/nginx/html/media
-        - name: nginx-config
-          mountPath: /etc/nginx/conf.d
       volumes:
       - name: static-volume
         persistentVolumeClaim:
           claimName: heyb-static-pvc
       - name: media-volume
         persistentVolumeClaim:
-          claimName: heyb-media-pvc
-      - name: nginx-config
-        configMap:
-          name: nginx-static-config 
+          claimName: heyb-media-pvc 
