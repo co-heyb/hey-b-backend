@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
   rules:
-  - host: heyb-backend-prod.dongpark.dev
+  - host: heyb-backend.dongpark.dev
     http:
       paths:
       - path: /
@@ -20,5 +20,5 @@ spec:
               number: 80
   tls:
   - hosts:
-    - heyb-backend-prod.dongpark.dev
+    - heyb-backend.dongpark.dev
     secretName: heyb-tls-secret 
