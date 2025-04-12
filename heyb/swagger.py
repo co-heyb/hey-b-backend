@@ -61,37 +61,42 @@ class TokenVerifyView(OriginalTokenVerifyView):
         return super().post(request, *args, **kwargs)
 
 # API 문서화 설정
-schema_view_kwargs = {
-    'info': openapi.Info(
-        title="HeyB API",
-        default_version='v1',
-        description=(
-            "취미 활동 공유 및 취미키트 구매 플랫폼 API\n\n"
-            "## 인증 방법\n"
-            "1. `/api/users/token/` 엔드포인트에서 사용자 이름과 비밀번호로 토큰을 발급받습니다.\n"
-            "2. 응답으로 받은 `access` 토큰을 Authorize 버튼을 클릭하여 입력합니다.\n"
-            "3. 토큰 앞에 `Bearer `를 붙이지 마세요. 자동으로 추가됩니다."
-        ),
-        terms_of_service="https://www.heyb.com/terms/",
-        contact=openapi.Contact(email="contact@heyb.com"),
-        license=openapi.License(name="BSD License"),
+# info 객체 생성 인자를 먼저 정의
+info_kwargs = {
+    'title': "HeyB API",
+    'default_version': 'v1',
+    'description': (
+        "취미 활동 공유 및 취미키트 구매 플랫폼 API\n\n"
+        "## 인증 방법\n"
+        "1. `/api/users/token/` 엔드포인트에서 사용자 이름과 비밀번호로 토큰을 발급받습니다.\n"
+        "2. 응답으로 받은 `access` 토큰을 Authorize 버튼을 클릭하여 입력합니다.\n"
+        "3. 토큰 앞에 `Bearer `를 붙이지 마세요. 자동으로 추가됩니다."
     ),
+    'terms_of_service': "https://www.heyb.com/terms/",
+    'contact': openapi.Contact(email="contact@heyb.com"),
+    'license': openapi.License(name="BSD License"),
+}
+
+if not settings.DEBUG:
+    # 운영 환경에서 schemes 추가
+    info_kwargs['schemes'] = ['https']
+
+schema_view_kwargs = {
+    'info': openapi.Info(**info_kwargs), # info 객체 생성 시 schemes 포함
     'public': True,
     'permission_classes': (permissions.AllowAny,),
 }
 
-# 운영 환경에서만 추가 설정 적용
+# 운영 환경에서만 url 추가 (schemes는 info로 이동)
 if not settings.DEBUG:
-    schema_view_kwargs.update({
-        'url': 'https://heyb-backend.dongpark.dev',
-        'schemes': ['https'],
-    })
+    schema_view_kwargs['url'] = 'https://heyb-backend.dongpark.dev'
+    # 아래 schemes 줄 제거됨
 
 schema_view = get_schema_view(**schema_view_kwargs)
 
 # 아래 urlpatterns 추가
 urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('swagger.<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json-yaml'),
+    path('swagger.<str:format>', schema_view.without_ui(cache_timeout=0), name='schema-json-yaml'), 
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ] 
