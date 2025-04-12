@@ -35,6 +35,10 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
+# CSRF 설정: 신뢰할 수 있는 출처 목록 (HTTPS 필수)
+CSRF_TRUSTED_ORIGINS_CSV = os.getenv('CSRF_TRUSTED_ORIGINS_CSV', '')
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in CSRF_TRUSTED_ORIGINS_CSV.split(',') if origin.strip()]
+
 
 # Application definition
 
