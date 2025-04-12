@@ -9,8 +9,8 @@ resources:
   - secrets.yaml
 
 patches:
-  - deployment-patch.yaml
-  - ingress-patch.yaml
+  - path: deployment-patch.yaml
+  - path: ingress-patch.yaml
 
 replicas:
   - name: heyb-web
