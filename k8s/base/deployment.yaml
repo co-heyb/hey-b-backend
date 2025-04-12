@@ -20,13 +20,6 @@ spec:
         deploy-date: "{{ date }}"  # kustomize에서 자동으로 현재 시간으로 변환됨
     spec:
       serviceAccountName: heyb-sa
-      initContainers:
-      - name: init-static
-        image: busybox:1.36
-        command: ['sh', '-c', 'echo "정적 파일 디렉토리 초기화 중..." && rm -rf /static/* || true']
-        volumeMounts:
-        - name: static-volume
-          mountPath: /static
       containers:
       - name: web
         image: ghcr.io/co-heyb/heyb-web:latest
