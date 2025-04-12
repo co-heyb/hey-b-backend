@@ -21,7 +21,7 @@ replacements:
   - source:
       kind: Deployment
       name: heyb-web
-      fieldPath: metadata.annotations.[date]
+      fieldPath: metadata.annotations.date
     targets:
       - select:
           kind: Deployment

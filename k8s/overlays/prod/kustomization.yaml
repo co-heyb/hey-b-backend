@@ -8,7 +8,7 @@ resources:
   - namespace.yaml
   - secrets.yaml
 
-patchesStrategicMerge:
+patches:
   - deployment-patch.yaml
   - ingress-patch.yaml
 
