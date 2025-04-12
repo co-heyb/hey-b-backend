@@ -11,6 +11,7 @@ spec:
     requests:
       storage: 1Gi
 ---
+# 미디어 파일을 위한 PVC 복원
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

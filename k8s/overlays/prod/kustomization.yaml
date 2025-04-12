@@ -7,6 +7,7 @@ resources:
   - ../../base
   - namespace.yaml
   - secrets.yaml
+  - media-hostpath-pv.yaml
 
 patches:
   - path: deployment-patch.yaml

@@ -56,10 +56,42 @@ spec:
             port: 8000
           initialDelaySeconds: 15
           periodSeconds: 10
+        # 미디어 볼륨 마운트 복원
         volumeMounts:
         - name: media-volume
           mountPath: /app/media
+        - name: static-volume
+          mountPath: /app/staticfiles
+      
+      # Nginx 컨테이너 추가 - 정적/미디어 파일 서빙
+      - name: nginx
+        image: nginx:1.25
+        ports:
+        - containerPort: 80
+          name: http
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+        - name: media-volume
+          mountPath: /usr/share/nginx/html/media
+        - name: static-volume
+          mountPath: /usr/share/nginx/html/static
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+      
+      # 미디어 볼륨 정의 복원
       volumes:
       - name: media-volume
         persistentVolumeClaim:
-          claimName: heyb-media-pvc 
+          claimName: heyb-media-pvc
+      - name: static-volume
+        emptyDir: {}
+      - name: nginx-config
+        configMap:
+          name: nginx-static-config 

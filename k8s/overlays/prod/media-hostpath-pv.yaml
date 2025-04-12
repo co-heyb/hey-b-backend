@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: heyb-media-pv
+  labels:
+    type: local
+    app: heyb
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    # Minikube 호스트 머신의 경로를 지정합니다
+    # 이 경로는 호스트 머신에 실제로 존재해야 합니다
+    path: "/mnt/data/heyb-media"
+  persistentVolumeReclaimPolicy: Retain 
