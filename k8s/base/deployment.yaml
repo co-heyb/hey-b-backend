@@ -20,6 +20,17 @@ spec:
         deploy-date: "{{ date }}"  # kustomize에서 자동으로 현재 시간으로 변환됨
     spec:
       serviceAccountName: heyb-sa
+      # 정적 파일 처리를 위한 initContainer 복원
+      initContainers:
+      - name: collectstatic
+        image: ghcr.io/co-heyb/heyb-web:latest
+        command: ['sh', '-c', 'python manage.py collectstatic --noinput']
+        volumeMounts:
+        - name: static-volume
+          mountPath: /app/staticfiles
+        envFrom:
+        - secretRef:
+            name: heyb-secrets
       containers:
       - name: web
         image: ghcr.io/co-heyb/heyb-web:latest
@@ -40,6 +51,11 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        # Django 로깅 강화 - 오류 진단용
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: DJANGO_LOG_LEVEL
+          value: "DEBUG"
         envFrom:
         - secretRef:
             name: heyb-secrets
@@ -91,7 +107,9 @@ spec:
         persistentVolumeClaim:
           claimName: heyb-media-pvc
       - name: static-volume
-        emptyDir: {}
+        emptyDir:
+          medium: Memory
+          sizeLimit: 500Mi
       - name: nginx-config
         configMap:
           name: nginx-static-config 
