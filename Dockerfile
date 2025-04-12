@@ -20,7 +20,7 @@ COPY . .
 RUN chmod +x start.sh
 
 # 정적 파일 수집 (빌드 타임에 미리 수집)
-RUN python manage.py collectstatic --clear --noinput
+RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
