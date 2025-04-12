@@ -250,6 +250,41 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
+# 로깅 설정 추가
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',  # INFO 레벨 이상의 로그를 콘솔에 출력
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO', # Django 관련 로그 레벨 (INFO 이상)
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR', # 500 에러는 여기에 해당 (ERROR 레벨 이상)
+            'propagate': False, # 상위 로거로 전파하지 않음
+        },
+    },
+}
+
 # Sentry 설정
 SENTRY_DSN = os.getenv('SENTRY_DSN', '')
 
